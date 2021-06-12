@@ -32,3 +32,33 @@
 }
 
 /*# sourceMappingURL=style.css.map */
+
+/* sign-up */
+ 
+#form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 30px;
+  height: 90vh;
+}
+.form__inp, #form__btn {
+  width: 100%;
+  max-width: 400px;
+  margin-top: 20px;
+  font-family: 'Poppins', sans-serif;
+  padding: 6px;
+}
+#form__btn {
+  cursor: pointer;
+  background: midnightblue;
+  color: white;
+  border: 0;
+  padding: 10px;
+} 
+.form__back {
+  color: black;
+  font-size: 22px;
+  width: 100%;
+}
