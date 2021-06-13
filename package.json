@@ -1,0 +1,22 @@
+{
+    "name": "book-store",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "scripts": {
+        "start": "sass --watch sass:css && live-server"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/alicodeuz/book-store.git"
+    },
+    "author": "",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/alicodeuz/book-store/issues"
+    },
+    "homepage": "https://github.com/alicodeuz/book-store#readme",
+    "devDependencies": {
+        "express-swagger-generator": "^1.1.17"
+    }
+}

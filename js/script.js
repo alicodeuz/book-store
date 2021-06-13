@@ -31,6 +31,24 @@ function fetchAuthors() {
     })
 }
 
+function fetchBookById() {
+  var query = new URLSearchParams(location.search);
+  const id = query.get('id');
+  displaySpinner(true);
+  fetch(`http://book.alitechbot.uz/api/books/${id}`)
+    .then(res => res.json())
+    .then(data => {
+      displayAuthorById(data, '#book');
+      console.log(data)
+      displaySpinner(false);
+    })
+    .catch(err => {
+      console.log(err);
+      displayError(err.message);
+      displaySpinner(false);
+    })
+}
+
 function fetchAuthorById() {
   var query = new URLSearchParams(location.search);
   const id = query.get('id');
@@ -63,4 +81,9 @@ window.onload = function () {
 
 
 
-
+export {
+  fetchAuthorById,
+  fetchBooks,
+  fetchAuthors,
+  fetchBookById,
+}

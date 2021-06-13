@@ -1,0 +1,54 @@
+*,
+*::after,
+*::before {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+#createNewBook {
+    justify-content: center;
+    height: 500px;
+    width: 400px;
+    border: 1px solid #B4B4BB;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: #F8F8F8;
+    border-radius: 4px;
+    form {
+        display: flex;
+        flex-direction: column;
+        select {
+            height: 35px;
+            width: 250px;
+            border-radius: 23px;
+            margin-top: 10px;
+        }
+        input {
+            font-size: 14px;
+            padding: 0 15px;
+            height: 35px;
+            outline: none;
+            width: 250px;
+            margin-top: 10px;
+            border-radius: 23px;
+            border: 1px solid #B4B4BB;
+        }
+        button {
+            height: 35px;
+            width: 250px;
+            border-radius: 23px;
+            border: 1px solid #B4B4BB;
+            margin-top: 26px;
+            background: #2979FF;
+        }
+    }
+}
