@@ -30,8 +30,8 @@
                         </li>
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                Dropdown
-              </a>
+                              Dropdown
+                            </a>
                             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                                 <li><a class="dropdown-item" href="#">Action</a></li>
                                 <li><a class="dropdown-item" href="#">Another action</a></li>
@@ -45,9 +45,9 @@
                             <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
                         </li>
                     </ul>
-                    <div class="button-group">
-                        <buttton class="btn btn-outline-primary" onclick="addBookForm()">Add Book</buttton>
-                        <buttton class="btn btn-outline-success" onclick="addAuthorForm()">Add Author</buttton>
+                    <div class="button-group" id="auth-block">
+                        <button class="btn btn-outline-primary" onclick="addLoginForm()">Sign In</button>
+                        <button class="btn btn-outline-success" onclick="addSignUpForm()">Sign Up</button>
                     </div>
                 </div>
             </div>
@@ -61,6 +61,12 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
     <script type="module" src="js/script.js"></script>
     <script src="js/books.js"></script>
+    <script src="js/auth.js"></script>
+
+    <script>
+        checkTokenExist();
+        setInterval(checkTokenExist, 5000);
+    </script>
 </body>
 
 

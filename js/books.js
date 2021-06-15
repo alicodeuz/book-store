@@ -81,10 +81,13 @@ function createBook() {
     price: price.value
   };
   console.log(book);
-
+  const token = localStorage.token;
   var requestOptions = {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`
+    },
     body: JSON.stringify(book),
     redirect: 'follow'
   };
