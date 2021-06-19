@@ -66,7 +66,7 @@ function addSignUpForm() {
           <input required class="form__inp" type="text" name="firstName" id="form__fname" placeholder="First Name">
           <input required class="form__inp" type="text" name="lastName" id="form__lname" placeholder="Last Name">
           <input required class="form__inp" type="text" name="email" id="form__email" placeholder="Your email">
-          <input required class="form__inp" type="text" name="phone" id="form__phone" placeholder="Your email">
+          <input required class="form__inp" type="text" name="phone" id="form__phone" placeholder="Phone">
           <input required class="form__inp" type="password" name="password" id="form__password" placeholder="Your password">
           <button id="form__btn" type="submit">Sign Up</button>
         </form>
@@ -165,6 +165,9 @@ function login(event) {
         });
 
         localStorage.setItem('token', result.token);
+        setTimeout(function () {
+          location.pathname = 'index.html'
+        }, 1500)
 
       } else {
 

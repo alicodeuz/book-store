@@ -1,7 +1,7 @@
 const DEFAULT_WRITER_IMAGE = '/assets/images/default-writer.jpeg';
+const DEFAULT_BOOK_IMAGE = '/assets/images/default-book.jpg';
 
 function displayError(errorMsg) {
-  console.log(errorMsg)
   const errorContainer = document.getElementById('error-wrapper');
   errorContainer.innerHTML = `
     <h3>Server bilan hatolik yuz berdi</h3>
@@ -34,12 +34,12 @@ function displayBooks(data = [], element) {
   } else {
     el.innerHTML = '';
     data.forEach(item => {
-      const { imageLink = DEFAULT_WRITER_IMAGE, title, description = '', year } = item;
+      const { imageLink, title, description = '', year, _id } = item;
 
       el.innerHTML += `
-        <div class="row g-0">
+        <a href="book-details.html?id=${_id}" class="row g-0">
           <div class="col-md-4">
-            <img src="${imageLink}" alt="${title}">
+            <img src="${getValidImage(imageLink)}" onerror={} alt="${title}">
           </div>
           <div class="col-md-8">
             <div class="card-body">
@@ -48,7 +48,7 @@ function displayBooks(data = [], element) {
               <p class="card-text"><small class="text-muted">${year}</small></p>
             </div>
           </div>
-        </div>
+        </a>
       `
     })
   }
@@ -80,12 +80,12 @@ function displayAuthors(data = [], element) {
   } else {
     el.innerHTML = '';
     data.forEach(item => {
-      const { _id, imageLink = DEFAULT_WRITER_IMAGE, firstName, description, lastName, phone } = item;
+      const { _id, imageLink, firstName, description, lastName, phone } = item;
 
       el.innerHTML += `
         <a href="author-details.html?id=${_id}" class="row g-0">
           <div class="col-md-4">
-            <img src="${imageLink}" alt="${firstName}">
+            <img src="${getValidImage(imageLink, true)}" alt="${firstName}">
           </div>
           <div class="col-md-8">
             <div class="card-body">
@@ -100,14 +100,35 @@ function displayAuthors(data = [], element) {
   }
 }
 
+function displayBookById(data = [], element) {
+  const el = document.querySelector(element);
+  const { _id, imageLink, title, price, description, author } = data;
+
+  el.innerHTML = `
+        <div class="row g-0">
+          <div class="col-md-4">
+            <img src="${getValidImage(imageLink)}" alt="${title}">
+          </div>
+          <div class="col-md-8">
+            <div class="card-body">
+              <h5 class="card-title">${`${title}`}</h5>
+              <p class="card-text">${description || ''}</p>
+              <p class="card-text"><small class="text-muted">${price}</small></p>
+              <a href="author-details.html?id=${author._id}">Author: ${author.firstName || ''} ${author.lastName || ''}</a>
+            </div>
+          </div>
+        </div>
+      `;
+}
+
 function displayAuthorById(data = [], element) {
   const el = document.querySelector(element);
 
-  const { _id, imageLink = DEFAULT_WRITER_IMAGE, firstName, description, lastName, phone } = data;
+  const { _id, imageLink, firstName, description, lastName, phone } = data;
   el.innerHTML = `
         <a href="author-details.html?id=${_id}" class="row g-0">
           <div class="col-md-4">
-            <img src="${imageLink}" alt="${firstName}">
+            <img src="${getValidImage(imageLink)}" alt="${firstName}">
           </div>
           <div class="col-md-8">
             <div class="card-body">
@@ -135,10 +156,59 @@ function displaySpinner(loading = true) {
   }
 };
 
+function getValidImage(img, isWriter) {
+  const validImageTypes = (/\.(gif|jpe?g|png|webp|bmp|svg)$/i).test(img);
+
+  if (img === '' || !validImageTypes) {
+    return isWriter ? DEFAULT_WRITER_IMAGE : DEFAULT_BOOK_IMAGE;
+  }
+
+  return img;
+}
+
+function handleErrors({ status, msg }) {
+  if (status >= 500) {
+    // Server errors
+    Swal.fire({
+      text: 'Server not responding',
+      icon: 'error'
+    });
+  } else if (status === 401) {
+    // Not logged in or token expired
+    Swal.fire({
+      title: 'Not Logged in',
+      text: 'You need to login or sign up',
+      icon: 'error'
+    });
+    localStorage.removeItem('token');
+  } else if (status === 403) {
+    // You are not authorized for this action
+    Swal.fire({
+      text: 'You are not authorized to do this action',
+      icon: 'error'
+    });
+  } else if (status >= 400) {
+    Swal.fire({
+      text: msg,
+      icon: 'error'
+    });
+  } else {
+    Swal.fire({
+      text: msg,
+      icon: 'error'
+    });
+  }
+
+}
+
+window.handleErrors = handleErrors;
+
 export {
   displayError,
   displayBooks,
   displayAuthors,
   displaySpinner,
   displayAuthorById,
+  displayBookById,
+  handleErrors,
 }

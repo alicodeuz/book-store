@@ -1,4 +1,4 @@
-import { displayError, displayBooks, displayAuthors, displaySpinner, displayAuthorById } from './utils.js';
+import { displayError, displayBooks, displayBookById, displayAuthors, displaySpinner, displayAuthorById } from './utils.js';
 
 // Get all books from http://book.alitechbot.uz/api/book
 function fetchBooks() {
@@ -18,11 +18,13 @@ function fetchBooks() {
 
 function fetchAuthors() {
   displaySpinner(true);
-  fetch('http://book.alitechbot.uz/api/authors')
+  return fetch('http://book.alitechbot.uz/api/authors')
     .then(res => res.json())
     .then(data => {
       displayAuthors(data, '#books');
       displaySpinner(false);
+      console.log(data, '------')
+      return data;
     })
     .catch(err => {
       console.log(err);
@@ -38,7 +40,7 @@ function fetchBookById() {
   fetch(`http://book.alitechbot.uz/api/books/${id}`)
     .then(res => res.json())
     .then(data => {
-      displayAuthorById(data, '#book');
+      displayBookById(data, '#book');
       console.log(data)
       displaySpinner(false);
     })
@@ -70,17 +72,20 @@ function fetchAuthorById() {
 
 window.onload = function () {
   const currentPage = location.pathname;
+  const id = new URLSearchParams(location.search).get('id');
   if (currentPage === '/authors.html') {
     fetchAuthors()
   } else if (currentPage.startsWith('/author-details.html')) {
-    fetchAuthorById("60bb90e00c28a943be3d16d0");
+    fetchAuthorById(id);
+  } else if (currentPage.startsWith('/book-details.html')) {
+    fetchBookById(id)
   } else {
     fetchBooks()
   }
 }
 
 
-
+window.fetchAuthors = fetchAuthors;
 export {
   fetchAuthorById,
   fetchBooks,

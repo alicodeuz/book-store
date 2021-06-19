@@ -1,6 +1,9 @@
 // import { fetchBooks } from './script.js';
 
-function addBookForm() {
+async function addBookForm() {
+  const authors = await window.fetchAuthors();
+  const authorsOptions = authors.map(item => `<option value=${item._id}>${item.firstName} ${item.lastName}</option>`);
+  console.log(authorsOptions)
   const form = `
   <div class="modal" tabindex="-1" id="myModal">
     <div class="modal-dialog">
@@ -17,8 +20,7 @@ function addBookForm() {
           <input type="text" name="country" placeholder="Country">
           <input type="number" name="year" placeholder="Year">
           <select name="author" id="select">
-          <option value="60c227bd93aa306e2bf12ecb">Azamat</option>
-          <option value="60c2282393aa306e2bf12ecc">Abdulhamid</option>
+            ${authorsOptions}
           </select>
         </form>
         </div>
@@ -93,8 +95,14 @@ function createBook() {
   };
 
   fetch("http://book.alitechbot.uz/api/books", requestOptions)
-    .then(response => response.json())
+    .then(response => {
+      if (response.status >= 400 || response.status >= 500) {
+        handleErrors({ status: response.status });
+      }
+      return response.json()
+    })
     .then(result => {
+
       if (typeof result === 'object') {
         window.Swal.fire({
           title: 'Kitob yuklandi',
@@ -105,7 +113,9 @@ function createBook() {
           timer: 3000
         });
 
-        // fetchBooks()
+        setTimeout(function () {
+          location.pathname = 'index.html';
+        }, 1000)
 
       } else {
         Swal.fire({
@@ -118,7 +128,10 @@ function createBook() {
         })
       }
     })
-    .catch(error => console.log('error', error));
+    .catch(error => {
+      console.log('error')
+      // handleErrors({ msg: error.message });
+    });
 }
 
 function createAuthor() {
@@ -129,16 +142,27 @@ function createAuthor() {
     lastName: lastName.value,
   };
   console.log(author);
+  const token = localStorage.token;
 
   var requestOptions = {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`
+    },
     body: JSON.stringify(author),
   };
 
   fetch("http://book.alitechbot.uz/api/authors", requestOptions)
-    .then(response => response.json())
-    .then(result => console.log(result))
+    .then(response => {
+      if (response.status >= 400 || response.status >= 500) {
+        handleErrors({ status: response.status });
+      }
+      return response.json()
+    })
+    .then(result => {
+      location.pathname = 'authors.html';
+    })
     .catch(error => console.log('error', error));
 }
 
